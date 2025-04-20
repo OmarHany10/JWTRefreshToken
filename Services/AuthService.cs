@@ -55,6 +55,10 @@ namespace JWTRefreshToken.Services
 
             string token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
+            var refreshToken = GenerateRefreshToken();
+            user.RefreshTokens?.Add(refreshToken);
+            await userManager.UpdateAsync(user);
+
             var userDTO = new UserDTO { Token = token, /*ValidTO = jwtSecurityToken.ValidTo */ };
             return userDTO;
         }
